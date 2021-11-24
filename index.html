@@ -3,23 +3,13 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <title>Unity WebGL Player | ShokoGamePrototype</title>
-  </head>
-  <body style="text-align: center">
-    <canvas id="unity-canvas" width=960 height=590 style="width: 960px; height: 590px; background: #231F20"></canvas>
-    <script src="Build/0.02.loader.js"></script>
+    <title>Unity WebGL Player | AlaskanGoldPrototype</title>
+    <script src="Build/UnityLoader.js"></script>
     <script>
-      createUnityInstance(document.querySelector("#unity-canvas"), {
-        dataUrl: "Build/0.02.data",
-        frameworkUrl: "Build/0.02.framework.js",
-        codeUrl: "Build/0.02.wasm",
-        streamingAssetsUrl: "StreamingAssets",
-        companyName: "DefaultCompany",
-        productName: "ShokoGamePrototype",
-        productVersion: "1.0",
-        // matchWebGLToCanvasSize: false, // Uncomment this to separately control WebGL canvas render size and DOM element size.
-        // devicePixelRatio: 1, // Uncomment this to override low DPI rendering on high DPI displays.
-      });
+      UnityLoader.instantiate("unityContainer", "Build/main.json");
     </script>
+  </head>
+  <body>
+    <div id="unityContainer" style="width: 1024px; height: 576px; margin: auto"></div>
   </body>
 </html>
