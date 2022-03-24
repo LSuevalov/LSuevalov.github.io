@@ -31,14 +31,12 @@
         var winH = parseInt(window.getComputedStyle(gameContainer).height, 10);
         var scale = Math.min(winW / initialDimensions.width, winH / initialDimensions.height);
         gCanvasElement.style.display = '';
-        gCanvasElement.style.width = 'auto';
-        gCanvasElement.style.height = 'auto';
 
         var fitW = Math.round(initialDimensions.width * scale * 100) / 100;
         var fitH = Math.round(initialDimensions.height * scale * 100) / 100;
 
-        gCanvasElement.setAttribute('width', fitW);
-        gCanvasElement.setAttribute('height', fitH);
+        gCanvasElement.style.width = fitW + "px";
+		gCanvasElement.style.height = fitH + "px";
     }
 
     window.setDimensions = setDimensions;
