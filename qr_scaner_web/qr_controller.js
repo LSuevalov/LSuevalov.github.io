@@ -17,9 +17,9 @@ import QrScanner from "./qr-scanner.min.js";
 
 const tableUrl = "https://script.google.com/macros/s/AKfycbzKkyQY4hf4-6iXEPvjKYAinaS-TZqp3ptu8WipDn4Qj5uEaAtsMnabM20EVW7fi3qLZQ/exec";
 const scanner = new QrScanner(document.getElementById('qr-video'), result => scanCallback(result), {
-    onDecodeError: error => {
-        alert(`Ошибка распознавания: ${error}`);
-    },
+    // onDecodeError: error => {
+    //     alert(`Ошибка распознавания: ${error}`);
+    // },
     highlightScanRegion: true,
     highlightCodeOutline: true,
 });
@@ -53,26 +53,26 @@ function setSectorNumber() {
     sectorNumber = parseInt(sectorNumberInput.val());
     sectorButton.text(`#${sectorNumber}`);
 
-    scanCallback('asdsdq');
+    scanner.start();
 }
 
 function scanCallback(result) {
-    if(!validateScanResult(result)) {
-        alert(`Невалидный результат ${result}`);
+    if(!validateScanResult(result.data)) {
+        alert(`Невалидный результат ${result.data}`);
         return;
     }
 
-    handleScanResult(result);
+    handleScanResult(result.data);
 }
 
-function validateScanResult(scanResult) {
+function validateScanResult(resultData) {
     // TODO: validation
     return true;
 }
 
-function handleScanResult(scanResult) {
+function handleScanResult(resultData) {
     // console.log('handling');
-    code = scanResult
+    code = resultData
     scanner.stop();
     video.hide();
 
@@ -85,10 +85,11 @@ function sendScanResults() {
         {
             code: code,
             sector: sectorNumber
-        },
-        function(data, status){
-            alert("Data: " + data + "\nStatus: " + status);
         });
+
+    confirmationZone.hide();
+    video.show();
+    scanner.start();
 }
 
 function showRequestResults() {
