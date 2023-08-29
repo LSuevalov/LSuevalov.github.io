@@ -140,17 +140,21 @@ function switchCamera() {
 function initializeScanner() {
     QrScanner.listCameras(true).then(
         function(cameras) {
+            // let camsString = '';
             cameras.sort((a, b) => a.id - b.id).forEach(camera => {
+                // camsString += `id ${camera.id} label ${camera.label}\n`
                 camList.append($('<option>', {
                     value: camera.id,
                     text: camera.label
                 }));
             });
 
-            switchCamera();
+            // alert(camsString);
+
+            scanner.setCamera("environment")
             scanner.start().then(function() {
-                noCamAccessZone.show();
-                settingsZone.hide();
+                noCamAccessZone.hide();
+                settingsZone.show();
             });
         });
 }
@@ -225,6 +229,7 @@ function showRequestResults(code, data, status) {
     requestResultDisplay.html(message);
     requestResultDisplay.show();
     requestResultDisplay.stop();
+    requestResultDisplay.fadeIn(0);
     requestResultDisplay.fadeOut(5000);
 }
 
