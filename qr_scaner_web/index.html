@@ -15,6 +15,8 @@
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
 
+    <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
+    <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
 
     <style>
         main {
@@ -34,23 +36,30 @@
 
             /*max-width: 100%;*/
         }
+
+        .btn-xl {
+            padding: 20px 20px;
+            font-size: 20px;
+            border-radius: 5px;
+        }
     </style>
 </head>
 <body>
 <div class = "btn-toolbar mb-2">
-    <button type="button" class="btn btn-light mr-auto" id="sectorButton" data-toggle="modal" data-target="#sectorSelectionModal">#</button>
-<!--    <button type="button" class="btn btn-light ml-auto" id="settingsButton" data-toggle="modal" data-target="#settingsModal">S</button>-->
+    <button type="button" class="btn btn-light btn-lg mr-auto" id="sectorButton">#</button>
+    <div class="alert mr-auto ml-auto" role="alert" id="requestResultDisplay"></div>
+    <button type="button" class="btn btn-light btn-lg ml-auto" id="settingsButton" data-toggle="modal" data-target="#settingsModal"><i class="bi bi-gear"></i></button>
 </div>
 <div class="main">
     <div id="video-container" class="video-container">
         <video id="qr-video" class="video"></video>
     </div>
-    <div id="confirmationZone">
+    <div id="confirmationZone" style="display: none">
         <p id="scanResult" class="blockquote text-center"></p>
-        <button type="button" class="btn btn-primary btn-lg btn-block" id="sendResultsButton">Отметить</button>
+        <button type="button" class="btn btn-primary btn-block btn-xl" id="sendResultsButton">Отметить</button>
+        <button type="button" class="btn btn-danger btn-block" id="cancelResultsButton">Не отмечать</button>
     </div>
 </div>
-
 
 
 <!-- MODALS -->
@@ -66,13 +75,13 @@
                 </button>
             </div>
             <div class="modal-body">
-                <div class="form-group">
-                    <label for="sectorNumberInput" class="col-form-label">Номер участка:</label>
-                    <input type="number" id="sectorNumberInput" class="form-control">
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary btn-block" id="sectorNumberSubmitButton" data-dismiss="modal">Готово</button>
+                <form id="sectorNumberForm">
+                    <div class="form-group">
+                        <label for="sectorNumberInput" class="col-form-label">Номер участка:</label>
+                        <input type="number" id="sectorNumberInput" class="form-control" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block" id="sectorNumberSubmitButton">Готово</button>
+                </form>
             </div>
         </div>
     </div>
@@ -89,41 +98,33 @@
                 </button>
             </div>
             <div class="modal-body">
-                <div>
-                    <select id="inversion-mode-select">
-                        <option value="original">Scan original (dark QR code on bright background)</option>
-                        <option value="invert">Scan with inverted colors (bright QR code on dark background)</option>
-                        <option value="both">Scan both</option>
-                    </select>
-                    <br>
+
+                <div id="settingsZone">
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="cam-icon"><i class="bi bi-camera-fill"></i></span>
+                        </div>
+                        <select id="camList" aria-label="Camera select" aria-describedby="cam-icon">
+<!--                            <option value="environment" selected>Environment Facing (default)</option>-->
+<!--                            <option value="user">User Facing</option>-->
+                        </select>
+                    </div>
+
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="flash-icon"><i class="bi bi-lightning-fill"></i></span>
+                        </div>
+                        <input type="checkbox" class="form-control" id="useFlashToggle" data-toggle="toggle" data-on="Включено" data-off="Выключено">
+                    </div>
                 </div>
-                <b>Device has camera: </b>
-                <span id="cam-has-camera"></span>
-                <br>
-                <div>
-                    <b>Preferred camera:</b>
-                    <select id="cam-list">
-                        <option value="environment" selected>Environment Facing (default)</option>
-                        <option value="user">User Facing</option>
-                    </select>
+
+                <div id="noCamAccessZone">
+                    <p>Для продолжения работы, пожалуйста, разрешите странице доступ к камере.</p>
                 </div>
-                <b>Camera has flash: </b>
-                <span id="cam-has-flash"></span>
-                <div>
-                    <button id="flash-toggle">📸 Flash: <span id="flash-state">off</span></button>
-                </div>
-                <br>
-                <b>Detected QR code: </b>
-                <span id="cam-qr-result">None</span>
-                <br>
-                <b>Last detected at: </b>
-                <span id="cam-qr-result-timestamp"></span>
-                <br>
-                <button id="start-button">Start</button>
-                <button id="stop-button">Stop</button>
+
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
             </div>
         </div>
     </div>
