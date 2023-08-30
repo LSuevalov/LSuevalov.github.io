@@ -42,6 +42,12 @@
             font-size: 20px;
             border-radius: 5px;
         }
+        .confirmationZone {
+            display: none;
+            position: absolute;
+            bottom: 30px;
+            width: 100%;
+        }
     </style>
 </head>
 <body>
@@ -54,11 +60,11 @@
     <div id="video-container" class="video-container">
         <video id="qr-video" class="video"></video>
     </div>
-    <div id="confirmationZone" style="display: none">
-        <p id="scanResult" class="blockquote text-center"></p>
-        <button type="button" class="btn btn-primary btn-block btn-xl" id="sendResultsButton">Отметить</button>
-        <button type="button" class="btn btn-danger btn-block" id="cancelResultsButton">Не отмечать</button>
-    </div>
+</div>
+<div id="confirmationZone" class="confirmationZone" style="display: none">
+    <p id="scanResult" class="blockquote text-center"></p>
+    <button type="button" class="btn btn-primary btn-block btn-xl" id="sendResultsButton">Отметить</button>
+    <button type="button" class="btn btn-danger btn-block" id="cancelResultsButton">Не отмечать</button>
 </div>
 
 
